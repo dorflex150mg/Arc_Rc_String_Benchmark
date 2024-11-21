@@ -11,6 +11,9 @@ use rand::{
 use std::time::{self, Duration};
 use std::fmt::{self, Display};
 
+
+mod plotter;
+
 const BENCHMARK_LEN: usize = 64;
 const ESSAYS: usize = 2048;
 
@@ -86,6 +89,7 @@ fn clone_str(str_type: StrType, essays: usize, size: usize) -> (Stats, Vec<u128>
         if difference < min {
             min = difference
         }
+        values.push(difference);
         sum += difference;
     }
     let n_essays: u128 = essays.try_into().unwrap();
@@ -109,6 +113,7 @@ fn write_to_file(mut file: File, string: Vec<u128>, rc: Vec<u128>, arc: Vec<u128
             "\n"
         );
         file.write_all(line.as_bytes())?;
+        
     }
     Ok(())
 }
@@ -143,11 +148,19 @@ fn main() -> std::io::Result<()> {
     let large = File::create("large.csv")?;
     let xl = File::create("xl.csv")?;
 
-    let _ = write_to_file(small, s_values_string, s_values_rc, s_values_arc);
+    let _ = write_to_file(small, s_values_string.clone(), s_values_rc.clone(), s_values_arc.clone());
     let _ = write_to_file(small_medium, sm_values_string, sm_values_rc, sm_values_arc);
     let _ = write_to_file(medium, m_values_string, m_values_rc, m_values_arc);
     let _ = write_to_file(large, l_values_string, l_values_rc, l_values_arc);
     let _ = write_to_file(xl, x_values_string, x_values_rc, x_values_arc);
+
+    
+    plotter::plotter::plot_hist(
+        s_values_string.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
+        s_values_rc.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
+        s_values_arc.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
+    );
+
 
     println!("\nsmall string:\t {}", s_mean_string);
     println!("small rc:\t {}", s_mean_rc);
@@ -168,5 +181,7 @@ fn main() -> std::io::Result<()> {
     println!("xl string:\t {}", x_mean_string);
     println!("xl rc:\t\t {}", x_mean_rc);
     println!("xl arc:\t\t {}", x_mean_arc);
-    return Ok(())
+    
+
+    Ok(())
 }
