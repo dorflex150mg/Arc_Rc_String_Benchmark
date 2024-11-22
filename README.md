@@ -42,18 +42,18 @@ Benchmark experiment comparing cloning performance of different string types in 
 
 ### Small:
 
-![latencyHist](results/latencyhistsmall.png)
+![Hist](results/histsmall.png)
 
 ### Small Medium:
-![latencyHist](results/latencyhistsmallmedium.png)
+![Hist](results/histsmallmedium.png)
 
 ### Medium:
-![latencyHist](results/latencyhistmedium.png)
+![Hist](results/histmedium.png)
 
 ### Large:
-![latencyHist](results/latencyhistlarge.png)
+![Hist](results/histlarge.png)
 
 ### ExtraLarge:
-![latencyHist](results/latencyhistxl.png)
+![Hist](results/histxl.png)
 
 
