@@ -134,13 +134,13 @@ fn main() -> std::io::Result<()> {
     let (m_mean_rc, m_values_rc) = clone_str(StrType::RcType, ESSAYS, MEDIUM);
     let (m_mean_arc, m_values_arc) = clone_str(StrType::ArcType, ESSAYS, MEDIUM);
 
-    let (l_mean_string, l_values_string) = clone_str(StrType::StringType, ESSAYS, LARGE);
-    let (l_mean_rc, l_values_rc) = clone_str(StrType::RcType, ESSAYS, LARGE);
-    let (l_mean_arc, l_values_arc) = clone_str(StrType::ArcType, ESSAYS, LARGE);
-
-    let (x_mean_string, x_values_string) = clone_str(StrType::StringType, ESSAYS, XL);
-    let (x_mean_rc, x_values_rc) = clone_str(StrType::RcType, ESSAYS, XL);
-    let (x_mean_arc, x_values_arc) = clone_str(StrType::ArcType, ESSAYS, XL);
+//    let (l_mean_string, l_values_string) = clone_str(StrType::StringType, ESSAYS, LARGE);
+//    let (l_mean_rc, l_values_rc) = clone_str(StrType::RcType, ESSAYS, LARGE);
+//    let (l_mean_arc, l_values_arc) = clone_str(StrType::ArcType, ESSAYS, LARGE);
+//
+//    let (x_mean_string, x_values_string) = clone_str(StrType::StringType, ESSAYS, XL);
+//    let (x_mean_rc, x_values_rc) = clone_str(StrType::RcType, ESSAYS, XL);
+//    let (x_mean_arc, x_values_arc) = clone_str(StrType::ArcType, ESSAYS, XL);
 
     let small = File::create("small.csv")?;
     let small_medium = File::create("small_medium.csv")?;
@@ -151,11 +151,11 @@ fn main() -> std::io::Result<()> {
     let _ = write_to_file(small, s_values_string.clone(), s_values_rc.clone(), s_values_arc.clone());
     let _ = write_to_file(small_medium, sm_values_string, sm_values_rc, sm_values_arc);
     let _ = write_to_file(medium, m_values_string, m_values_rc, m_values_arc);
-    let _ = write_to_file(large, l_values_string, l_values_rc, l_values_arc);
-    let _ = write_to_file(xl, x_values_string, x_values_rc, x_values_arc);
-
+//    let _ = write_to_file(large, l_values_string, l_values_rc, l_values_arc);
+//    let _ = write_to_file(xl, x_values_string, x_values_rc, x_values_arc);
+//
     
-    plotter::plotter::plot_hist(
+    let _ = plotter::plotter::plot_hist(
         s_values_string.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
         s_values_rc.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
         s_values_arc.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
@@ -174,13 +174,13 @@ fn main() -> std::io::Result<()> {
     println!("medium rc:\t {}", m_mean_rc);
     println!("medium arc:\t {}", m_mean_arc);
 
-    println!("large string:\t {}", l_mean_string);
-    println!("large rc:\t {}", l_mean_rc);
-    println!("large arc:\t {}", l_mean_arc);
-
-    println!("xl string:\t {}", x_mean_string);
-    println!("xl rc:\t\t {}", x_mean_rc);
-    println!("xl arc:\t\t {}", x_mean_arc);
+//    println!("large string:\t {}", l_mean_string);
+//    println!("large rc:\t {}", l_mean_rc);
+//    println!("large arc:\t {}", l_mean_arc);
+//
+//    println!("xl string:\t {}", x_mean_string);
+//    println!("xl rc:\t\t {}", x_mean_rc);
+//    println!("xl arc:\t\t {}", x_mean_arc);
     
 
     Ok(())

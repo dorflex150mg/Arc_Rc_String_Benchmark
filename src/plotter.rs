@@ -13,9 +13,9 @@ pub mod plotter {
         let mut chart = ChartBuilder::on(&root)
             .x_label_area_size(35)
             .y_label_area_size(40)
-            .margin(5)
-            .caption("Clone Latency Histogram by Data Structure", ("sans-serif", 50.0))
-            .build_cartesian_2d((0u32..10u32).into_segmented(), 0u32..10u32)?;
+            .margin(10)
+            .caption("Clone Latency Histogram by Data Structure (R: String, B: Rc, G: Arc)", ("sans-serif", 10.0))
+            .build_cartesian_2d((0u32..300u32).into_segmented(), 0u32..800u32)?;
     
         chart
             .configure_mesh()
@@ -28,8 +28,24 @@ pub mod plotter {
     
         chart.draw_series(
             Histogram::vertical(&chart)
-                .style(RED.mix(0.5))
+                .style(RED.filled())
+                .margin(5)
                 .data(strings.iter().map(|x: &u32| (*x, 1))),
+        )?;
+    
+
+        chart.draw_series(
+            Histogram::vertical(&chart)
+                .style(BLUE.filled())
+                .margin(5)
+                .data(rcs.iter().map(|x: &u32| (*x, 1))),
+        )?;
+
+        chart.draw_series(
+            Histogram::vertical(&chart)
+                .style(GREEN.filled())
+                .margin(5)
+                .data(arcs.iter().map(|x: &u32| (*x, 1))),
         )?;
     
     
