@@ -10,6 +10,7 @@ use rand::{
 };
 use std::time::{self, Duration};
 use std::fmt::{self, Display};
+use crate::plotter::plotter::Dimensions;
 
 
 mod plotter;
@@ -134,13 +135,13 @@ fn main() -> std::io::Result<()> {
     let (m_mean_rc, m_values_rc) = clone_str(StrType::RcType, ESSAYS, MEDIUM);
     let (m_mean_arc, m_values_arc) = clone_str(StrType::ArcType, ESSAYS, MEDIUM);
 
-//    let (l_mean_string, l_values_string) = clone_str(StrType::StringType, ESSAYS, LARGE);
-//    let (l_mean_rc, l_values_rc) = clone_str(StrType::RcType, ESSAYS, LARGE);
-//    let (l_mean_arc, l_values_arc) = clone_str(StrType::ArcType, ESSAYS, LARGE);
-//
-//    let (x_mean_string, x_values_string) = clone_str(StrType::StringType, ESSAYS, XL);
-//    let (x_mean_rc, x_values_rc) = clone_str(StrType::RcType, ESSAYS, XL);
-//    let (x_mean_arc, x_values_arc) = clone_str(StrType::ArcType, ESSAYS, XL);
+    let (l_mean_string, l_values_string) = clone_str(StrType::StringType, ESSAYS, LARGE);
+    let (l_mean_rc, l_values_rc) = clone_str(StrType::RcType, ESSAYS, LARGE);
+    let (l_mean_arc, l_values_arc) = clone_str(StrType::ArcType, ESSAYS, LARGE);
+
+    let (x_mean_string, x_values_string) = clone_str(StrType::StringType, ESSAYS, XL);
+    let (x_mean_rc, x_values_rc) = clone_str(StrType::RcType, ESSAYS, XL);
+    let (x_mean_arc, x_values_arc) = clone_str(StrType::ArcType, ESSAYS, XL);
 
     let small = File::create("small.csv")?;
     let small_medium = File::create("small_medium.csv")?;
@@ -149,38 +150,73 @@ fn main() -> std::io::Result<()> {
     let xl = File::create("xl.csv")?;
 
     let _ = write_to_file(small, s_values_string.clone(), s_values_rc.clone(), s_values_arc.clone());
-    let _ = write_to_file(small_medium, sm_values_string, sm_values_rc, sm_values_arc);
-    let _ = write_to_file(medium, m_values_string, m_values_rc, m_values_arc);
-//    let _ = write_to_file(large, l_values_string, l_values_rc, l_values_arc);
-//    let _ = write_to_file(xl, x_values_string, x_values_rc, x_values_arc);
-//
+    let _ = write_to_file(small_medium, sm_values_string.clone(), sm_values_rc.clone(), sm_values_arc.clone());
+    let _ = write_to_file(medium, m_values_string.clone(), m_values_rc.clone(), m_values_arc.clone());
+    let _ = write_to_file(large, l_values_string.clone(), l_values_rc.clone(), l_values_arc.clone());
+    let _ = write_to_file(xl, x_values_string.clone(), x_values_rc.clone(), x_values_arc.clone());
+
     
     let _ = plotter::plotter::plot_hist(
+        "histsmall.png",
         s_values_string.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
         s_values_rc.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
         s_values_arc.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
+        None,
+    );
+
+    let _ = plotter::plotter::plot_hist(
+        "histsmallmedium.png",
+        sm_values_string.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
+        sm_values_rc.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
+        sm_values_arc.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
+        None,
     );
 
 
-    println!("\nsmall string:\t {}", s_mean_string);
-    println!("small rc:\t {}", s_mean_rc);
-    println!("small arc:\t {}", s_mean_arc);
+
+    let _ = plotter::plotter::plot_hist(
+        "histmedium.png",
+        m_values_string.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
+        m_values_rc.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
+        m_values_arc.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
+        None,
+    );
+
+    let _ = plotter::plotter::plot_hist(
+        "histlarge.png",
+        l_values_string.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
+        l_values_rc.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
+        l_values_arc.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
+        Some(Dimensions::new(2000, 200)),
+    );
+
+    let _ = plotter::plotter::plot_hist(
+        "histxl.png",
+        x_values_string.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
+        x_values_rc.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
+        x_values_arc.iter().map(|v| { u32::try_from(*v).unwrap() }).collect(),
+        Some(Dimensions::new(10000, 50)),
+    );
+
+    println!("\nsmall string:\t\t {}", s_mean_string);
+    println!("small rc:\t\t {}", s_mean_rc);
+    println!("small arc:\t\t {}", s_mean_arc);
 
     println!("\nsmall_medium string:\t {}", sm_mean_string);
     println!("small_medium rc:\t {}", sm_mean_rc);
     println!("small_medium arc:\t {}", sm_mean_arc);
 
-    println!("medium string:\t {}", m_mean_string);
-    println!("medium rc:\t {}", m_mean_rc);
-    println!("medium arc:\t {}", m_mean_arc);
+    println!("\nmedium string:\t\t {}", m_mean_string);
+    println!("medium rc:\t\t {}", m_mean_rc);
+    println!("medium arc:\t\t {}", m_mean_arc);
 
-//    println!("large string:\t {}", l_mean_string);
-//    println!("large rc:\t {}", l_mean_rc);
-//    println!("large arc:\t {}", l_mean_arc);
-//
-//    println!("xl string:\t {}", x_mean_string);
-//    println!("xl rc:\t\t {}", x_mean_rc);
-//    println!("xl arc:\t\t {}", x_mean_arc);
+    println!("\nlarge string:\t\t {}", l_mean_string);
+    println!("large rc:\t\t {}", l_mean_rc);
+    println!("large arc:\t\t {}", l_mean_arc);
+
+    println!("\nxl string:\t\t {}", x_mean_string);
+    println!("xl rc:\t\t\t {}", x_mean_rc);
+    println!("xl arc:\t\t\t {}", x_mean_arc);
     
 
     Ok(())
